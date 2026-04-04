@@ -1,1 +1,1 @@
-ls -l | grep ^- | wc -l
+ls -A | wc -l
