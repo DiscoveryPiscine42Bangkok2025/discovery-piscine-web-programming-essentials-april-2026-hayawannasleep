@@ -1,8 +1,5 @@
 $>./argv.sh
-No arguments supplied
-$>./argv.sh 42
-42
-$>./argv.sh 2 40 42
+$>./argv.sh 3 
 2
 40
 42
