@@ -1,11 +1,2 @@
-$>./argv.sh
-$>./argv.sh 3 
-2
-40
-42
-$>./argv.sh Hello World ! 42
-Hello
-World
-!
-42
-$>
+chmod +x argv.sh
+./argv.sh Gu yak grabban
