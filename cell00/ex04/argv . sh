@@ -1,4 +1,0 @@
-#!/bin/bash
-echo "1st argument: gu"
-echo "2nd argument: yak"
-echo "3rd argument: grabban"
