@@ -1,1 +1,99 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Balloon (Enhanced jQuery)</title>
 
+<style>
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    margin:0;
+    background-color:#f4f4f9;
+    overflow:hidden;
+}
+
+#balloon{
+    width:200px;
+    height:200px;
+    background-color:red;
+    border-radius:50%;
+    cursor:pointer;
+    box-shadow:0 15px 25px rgba(0,0,0,0.15);
+    transition:width 0.15s ease, height 0.15s ease, background-color 0.2s ease;
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="balloon"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+    let defaultSize = 200;
+    let maxSize = 420;
+    let size = defaultSize;
+
+    let colors = ['red','green','blue','orange','purple'];
+    let colorIndex = 0;
+
+    $('#balloon').click(function(){
+
+        size += 20;
+
+        if(size > maxSize){
+
+            $(this).fadeOut(150,function(){
+
+                size = defaultSize;
+                colorIndex = 0;
+                updateBalloon();
+
+                $(this).fadeIn(300);
+
+            });
+
+        }else{
+
+            colorIndex = (colorIndex + 1) % colors.length;
+            updateBalloon();
+
+        }
+
+    });
+
+    $('#balloon').mouseleave(function(){
+
+        if(size > defaultSize){
+
+            size -= 10;
+            colorIndex = (colorIndex - 1 + colors.length) % colors.length;
+            updateBalloon();
+
+        }
+
+    });
+
+    function updateBalloon(){
+
+        $('#balloon').css({
+            'width': size + 'px',
+            'height': size + 'px',
+            'background-color': colors[colorIndex]
+        });
+
+    }
+
+});
+</script>
+
+</body>
+</html>
