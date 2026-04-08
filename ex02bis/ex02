@@ -1,1 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basic Calculator</title>
 
+<style>
+body{
+    font-family: Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#f4f4f9;
+}
+
+form{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+input, select{
+    padding:8px;
+    font-size:16px;
+    margin:5px;
+}
+
+input[type="submit"]{
+    cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<form id="calc-form">
+
+<input type="text" id="left-member" placeholder="Left number">
+
+<select id="operator">
+<option value="+">+</option>
+<option value="-">-</option>
+<option value="*">*</option>
+<option value="/">/</option>
+<option value="%">%</option>
+</select>
+
+<input type="text" id="right-member" placeholder="Right number">
+
+<input type="submit" value="Try me!">
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+$(document).ready(function(){
+
+    setInterval(function(){
+        alert("Please, use me...");
+    },30000);
+
+    $("#calc-form").submit(function(event){
+
+        event.preventDefault();
+
+        let leftVal = $("#left-member").val();
+        let rightVal = $("#right-member").val();
+        let operator = $("#operator").val();
+
+        function isPositiveInteger(str){
+            return /^\d+$/.test(str);
+        }
+
+        if(!isPositiveInteger(leftVal) || !isPositiveInteger(rightVal)){
+            alert("Error :(");
+            return;
+        }
+
+        let leftNum = parseInt(leftVal,10);
+        let rightNum = parseInt(rightVal,10);
+
+        if((operator === "/" || operator === "%") && rightNum === 0){
+            alert("It's over 9000!");
+            console.log("It's over 9000!");
+            return;
+        }
+
+        let result;
+
+        switch(operator){
+
+            case "+":
+                result = leftNum + rightNum;
+                break;
+
+            case "-":
+                result = leftNum - rightNum;
+                break;
+
+            case "*":
+                result = leftNum * rightNum;
+                break;
+
+            case "/":
+                result = leftNum / rightNum;
+                break;
+
+            case "%":
+                result = leftNum % rightNum;
+                break;
+
+        }
+
+        alert(result);
+        console.log(result);
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
