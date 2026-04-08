@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Task Management</title>
 
+<style>
+body{
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+button{
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+#ft_list{
+    border: 2px solid #ccc;
+    padding: 10px;
+    min-height: 50px;
+    width: 300px;
+}
+.todo-item{
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.todo-item:hover{
+    background-color: #ffe6e6;
+}
+</style>
+
+</head>
+
+<body>
+
+<button id="new-btn">new</button>
+
+<div id="ft_list"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+$(document).ready(function(){
+
+    loadFromCookie();
+
+    $("#new-btn").click(function(){
+
+        let todoText = prompt("Enter a new TO DO:");
+
+        if(todoText !== null && todoText.trim() !== ""){
+            addTodo(todoText);
+            saveToCookie();
+        }
+
+    });
+
+});
+
+function addTodo(text){
+
+    let newTodo = $("<div></div>")
+        .text(text)
+        .addClass("todo-item");
+
+    newTodo.click(function(){
+
+        if(confirm("Do you really want to remove this TO DO?")){
+            $(this).remove();
+            saveToCookie();
+        }
+
+    });
+
+    $("#ft_list").prepend(newTodo);
+
+}
+
+function saveToCookie(){
+
+    let todos = [];
+
+    $("#ft_list .todo-item").each(function(){
+        todos.push($(this).text());
+    });
+
+    let date = new Date();
+    date.setTime(date.getTime() + (24*60*60*1000));
+
+    document.cookie =
+        "todos=" +
+        encodeURIComponent(JSON.stringify(todos)) +
+        ";expires=" +
+        date.toUTCString() +
+        ";path=/";
+
+}
+
+function loadFromCookie(){
+
+    let name = "todos=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let cookieArray = decodedCookie.split(';');
+    let storedTodos = null;
+
+    for(let i=0;i<cookieArray.length;i++){
+
+        let c = cookieArray[i].trim();
+
+        if(c.indexOf(name) === 0){
+
+            let jsonString = c.substring(name.length);
+
+            try{
+                storedTodos = JSON.parse(jsonString);
+            }
+            catch(e){
+                console.error("Error parsing cookie");
+            }
+
+            break;
+        }
+    }
+
+    if(storedTodos && storedTodos.length > 0){
+
+        for(let i = storedTodos.length - 1; i >= 0; i--){
+            addTodo(storedTodos[i]);
+        }
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
